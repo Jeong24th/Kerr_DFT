@@ -159,4 +159,4 @@ For questions, please contact:
 
 - Hun Jang: hun.jang@nyu.edu
 - Minkyoo Kim: minkyookim@snu.ac.kr
-- Jeong-Hyuck Park (corresponding author): park@sogang.ac.kr
+- Jeong-Hyuck Park: park@sogang.ac.kr
