@@ -1,10 +1,10 @@
 # Rotating Closed String Vacuum
 
-This repository contains two independent verification tracks — a Maple/GRTensorIII worksheet/workbook and a Mathematica notebook — for the exact rotating closed-string NS–NS vacuum solution of the Einstein Double Field Equations in double field theory.
+This repository contains three independent verification tracks — a Maple/GRTensorIII worksheet/workbook, a Mathematica notebook, and a Python/SymPy suite — for the exact rotating closed-string NS–NS vacuum solution of the Einstein Double Field Equations in double field theory.
 
-**Coordinate convention.** Both tracks perform the verification natively in Boyer–Lindquist coordinates $(t,\bar r,\vartheta,\varphi)$, matching the solution as written in the Supplemental Material of the accompanying paper. The quasi-isotropic chart $(t,r,\vartheta,\varphi)$ used in the body of the paper follows by the explicit pull-back $\bar r(r)=r+m+(m^{2}-j^{2})/(4r)$; the Mathematica notebook additionally checks this pull-back map.
+**Coordinate convention.** All three tracks perform the verification natively in Boyer–Lindquist coordinates $(t,\bar r,\vartheta,\varphi)$, matching the solution as written in the Supplemental Material of the accompanying paper. The quasi-isotropic chart $(t,r,\vartheta,\varphi)$ used in the body of the paper follows by the explicit pull-back $\bar r(r)=r+m+(m^{2}-j^{2})/(4r)$; the Mathematica notebook additionally checks this pull-back map.
 
-The Maple/GRTensorIII track supplies a GRTensorIII-compatible metric file together with Maple worksheet/workbook files that perform symbolic tensor calculations — line element, determinant, inverse metric, Ricci tensor, and Ricci scalar. In the vacuum check, the Ricci tensor and Ricci scalar simplify to zero. The Mathematica notebook performs an independent symbolic verification of the dilaton, Kalb–Ramond three-form, and string-frame metric directly against the NS–NS field equations in Boyer–Lindquist coordinates.
+The Maple/GRTensorIII track supplies a GRTensorIII-compatible metric file together with Maple worksheet/workbook files that perform symbolic tensor calculations — line element, determinant, inverse metric, Ricci tensor, and Ricci scalar. For the NS–NS vacuum check, the field equation residuals — the modified Einstein tensor $R_{\mu\nu}-2\nabla_{\mu}\nabla_{\nu}\phi+\tfrac{1}{4}H_{\mu\alpha\beta}H_{\nu}{}^{\alpha\beta}$, the dilaton equation, and the H-flux Bianchi/EOM — simplify to zero. (The bare Ricci tensor and scalar of the string-frame metric are nonzero; they are sourced by the dilaton and H-flux.) The Mathematica notebook performs an independent symbolic verification of the dilaton, Kalb–Ramond three-form, and string-frame metric directly against the NS–NS field equations in Boyer–Lindquist coordinates.
 
 ## Repository contents
 
@@ -14,6 +14,9 @@ The Maple/GRTensorIII track supplies a GRTensorIII-compatible metric file togeth
 | `Rotating_Closed_String_Vacuum.mw` | Maple worksheet containing the symbolic GRTensorIII calculation and saved outputs. |
 | `Rotating_Closed_String_Vacuum.maple` | Maple workbook version of the calculation file. |
 | `analytic_proof_of__qi coordinate.nb` | Mathematica notebook: independent verification track. Checks the boxed dilaton, $H_{(3)}$, and string-frame metric directly against the NS–NS field equations in Boyer–Lindquist coordinates, then verifies the pull-back to quasi-isotropic coordinates. |
+| `verify_einstein_eq.py` | Third independent track (SymPy/Python). Verifies the Bogush–Galtsov Einstein-frame seed satisfies $R^E_{\mu\nu} - 2\partial_\mu\phi_{\rm seed}\partial_\nu\phi_{\rm seed} = 0$ at multiple generic numerical test points. |
+| `verify_string_ricci.py` | Verifies the static-limit ($j=0$) string-frame Ricci-scalar formula $R\|_{j=0} = -(2e^{-2\phi}+3e^{-6\phi}\sin^{2}2\zeta)\,R^E\|_{j=0}$ from the SM. |
+| `verify_NS_NS.py` | Full NS–NS vacuum field equation verification (graviton + B-field + dilaton) at $q \neq 0$ generic rotating parameters. |
 
 ## Requirements
 
@@ -22,8 +25,9 @@ The files were prepared for use with:
 - [Maple](https://www.maplesoft.com/products/Maple/) (worksheet metadata indicates Maple 2026.1)
 - [GRTensorIII](https://github.com/grtensor/grtensor)
 - [Wolfram Mathematica](https://www.wolfram.com/mathematica/) (the notebook was prepared with Wolfram 14.3)
+- [Python 3](https://www.python.org/) (3.10+) with [SymPy](https://www.sympy.org/) (1.13+) for the `.py` tracks.
 
-Other recent Maple/GRTensorIII/Mathematica versions may also work, but symbolic-simplification behaviour and notebook rendering can vary by version.
+Other recent Maple/GRTensorIII/Mathematica versions may also work, but symbolic-simplification behaviour and notebook rendering can vary by version. The Python tracks were tested with Python 3.12 / SymPy 1.14 and require only the SymPy standard library.
 
 ## Metric file summary
 
@@ -109,6 +113,19 @@ Depending on local GRTensorIII conventions, the metric name may be treated case-
 2. Open `analytic_proof_of__qi coordinate.nb` and evaluate the cells from top to bottom.
 3. The notebook verifies the boxed dilaton, $H_{(3)}$, and string-frame metric in Boyer–Lindquist coordinates against the NS–NS field equations, and then confirms the pull-back map to the quasi-isotropic chart.
 
+### Python/SymPy track
+
+1. Install Python 3 and SymPy (`pip install sympy`).
+2. From the repository directory, run any of:
+
+   ```bash
+   python verify_einstein_eq.py
+   python verify_string_ricci.py
+   python verify_NS_NS.py
+   ```
+
+3. Each script builds the metric (and B-field / dilaton where relevant) symbolically, computes Christoffel / Ricci / NS–NS residuals, then evaluates at three independent generic test points and reports residuals. Expected output: all residuals zero to ~140 decimal digits (machine precision) and a final `PASS` line.
+
 ## Expected output
 
 **Maple/GRTensorIII.** The worksheet/workbook computes tensorial quantities for the metric. In particular, the saved output includes calculations of:
@@ -119,9 +136,17 @@ Depending on local GRTensorIII conventions, the metric name may be treated case-
 - the Ricci tensor `R(dn,dn)`
 - the Ricci scalar `Ricciscalar`
 
-For the vacuum check, the Ricci tensor and Ricci scalar should simplify to zero under the assumptions and simplifications used in the worksheet/workbook.
+For the NS–NS vacuum check, the worksheet/workbook then combines these with the dilaton and Kalb–Ramond data to form the NS–NS field equation residuals — the modified Einstein tensor $R_{\mu\nu}-2\nabla_{\mu}\nabla_{\nu}\phi+\tfrac{1}{4}H_{\mu\alpha\beta}H_{\nu}{}^{\alpha\beta}$, the dilaton equation, and the H-flux Bianchi/EOM — which simplify to zero. The bare Ricci tensor and scalar of the string-frame metric are nonzero; they are sourced by the dilaton and H-flux.
 
 **Mathematica.** The notebook evaluates each NS–NS field equation symbolically in Boyer–Lindquist coordinates and prints simplified residuals; under the stated assumptions all residuals reduce to zero.
+
+**Python/SymPy.** Each `verify_*.py` script prints, at multiple independent test points,
+
+- `verify_einstein_eq.py` — the 10 independent components of $R^E_{\mu\nu}-2\partial_\mu\phi_{\rm seed}\partial_\nu\phi_{\rm seed}$, all evaluating to zero;
+- `verify_string_ricci.py` — the directly computed string-frame Ricci scalar at $j=0$ and the PRL-formula prediction, with zero absolute and relative difference;
+- `verify_NS_NS.py` — the 10 graviton-equation components, 6 B-field-equation components, and the dilaton trace, all zero.
+
+A final `PASS` line summarises the maximum residual.
 
 ## Reproducibility notes
 
