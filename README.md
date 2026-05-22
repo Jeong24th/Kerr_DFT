@@ -4,6 +4,8 @@ This repository contains three independent verification tracks — a Maple/GRTen
 
 **Coordinate convention.** All three tracks perform the verification natively in Boyer–Lindquist coordinates $(t,\bar r,\vartheta,\varphi)$, matching the solution as written in the Supplemental Material of the accompanying paper. The quasi-isotropic chart $(t,r,\vartheta,\varphi)$ used in the body of the paper follows by the explicit pull-back $\bar r(r)=r+m+(m^{2}-j^{2})/(4r)$; the Mathematica notebook additionally checks this pull-back map.
 
+**Notation.** The paper defines $\Sigma_{\pm}(\bar r,\vartheta)\equiv\bar r^{2}\pm j^{2}\cos^{2}\vartheta$. The verification code retains the legacy single-symbol $\Sigma$ for the paper's $\Sigma_{+}$ (the standard Kerr combination $\bar r^{2}+j^{2}\cos^{2}\vartheta$); the minus-variant $\Sigma_{-}$ does not enter the field-equation residuals computed here.
+
 The Maple/GRTensorIII track supplies a GRTensorIII-compatible metric file together with Maple worksheet/workbook files that perform symbolic tensor calculations — line element, determinant, inverse metric, Ricci tensor, and Ricci scalar. For the NS–NS vacuum check, the field equation residuals — the modified Einstein tensor $R_{\mu\nu}-2\nabla_{\mu}\nabla_{\nu}\phi+\tfrac{1}{4}H_{\mu\alpha\beta}H_{\nu}{}^{\alpha\beta}$, the dilaton equation, and the H-flux Bianchi/EOM — simplify to zero. (The bare Ricci tensor and scalar of the string-frame metric are nonzero; they are sourced by the dilaton and H-flux.) The Mathematica notebook performs an independent symbolic verification of the dilaton, Kalb–Ramond three-form, and string-frame metric directly against the NS–NS field equations in Boyer–Lindquist coordinates.
 
 ## Repository contents
