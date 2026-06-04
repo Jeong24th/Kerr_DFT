@@ -2,7 +2,9 @@
 
 This repository contains three independent verification tracks — a Maple/GRTensorIII worksheet/workbook, a pair of Mathematica notebooks (analytic and numerical), and a Python/SymPy suite — for the exact rotating closed-string NS–NS vacuum solution of the Einstein Double Field Equations in double field theory. A Wolfram Language script (`figures.wl`) reproduces the five figures of the paper.
 
-**Coordinate convention.** All three tracks perform the verification natively in Boyer–Lindquist coordinates $(t,\bar r,\vartheta,\varphi)$, matching the solution as written in the Supplemental Material of the accompanying paper. The quasi-isotropic chart $(t,r,\vartheta,\varphi)$ used in the body of the paper follows by the explicit pull-back $\bar r(r)=r+m+(m^{2}-j^{2})/(4r)$; the Mathematica notebook additionally checks this pull-back map.
+**Accompanying paper.** H. Jang, M. Kim, and J.-H. Park, *"Exact Four-Parameter Rotating NS–NS Vacuum in Double Field Theory"* (2026). The Maple/GRTensorIII and Mathematica tracks provide the primary symbolic verification cited in the paper; the Python/SymPy track is supplied as an independent cross-check.
+
+**Coordinate convention.** All three tracks perform the verification natively in Boyer–Lindquist coordinates $(t,\bar r,\vartheta,\varphi)$, matching the solution as written in the appendix of the accompanying paper. The quasi-isotropic chart $(t,r,\vartheta,\varphi)$ used in the body of the paper follows by the explicit pull-back $\bar r(r)=r+m+(m^{2}-j^{2})/(4r)$; the Mathematica notebook additionally checks this pull-back map.
 
 **Notation.** The paper defines $\Sigma_{\pm}(\bar r,\vartheta)\equiv\bar r^{2}\pm j^{2}\cos^{2}\vartheta$. The verification code retains the legacy single-symbol $\Sigma$ for the paper's $\Sigma_{+}$ (the standard Kerr combination $\bar r^{2}+j^{2}\cos^{2}\vartheta$); the minus-variant $\Sigma_{-}$ does not enter the field-equation residuals computed here.
 
@@ -19,7 +21,7 @@ The Maple/GRTensorIII track supplies a GRTensorIII-compatible metric file togeth
 | `Numerical_check_for_qi coordinate.nb` | Mathematica notebook (numerical track). Independent numerical verification of the same NS–NS field equations on the quasi-isotropic chart, complementing the analytic notebook. |
 | `figures.wl` | Wolfram Language script reproducing the five figures of the paper (`fig_polar3d.pdf`, `fig_polar_radial.pdf`, `fig_extremal.pdf`, `fig_nonsphere.pdf`, `fig_polar2d.pdf`) from the closed-form solution. Run with `wolframscript -file figures.wl`. |
 | `verify_einstein_eq.py` | Third independent track (SymPy/Python). Verifies the Bogush–Galtsov Einstein-frame seed satisfies $R^E_{\mu\nu} - 2\partial_\mu\phi_{\rm seed}\partial_\nu\phi_{\rm seed} = 0$ at multiple generic numerical test points. |
-| `verify_string_ricci.py` | Verifies the static-limit ($j=0$) string-frame Ricci-scalar formula $R\|_{j=0} = -(2e^{-2\phi}+3e^{-6\phi}\sin^{2}2\zeta)\,R^E\|_{j=0}$ from the SM. |
+| `verify_string_ricci.py` | Verifies the static-limit ($j=0$) string-frame Ricci-scalar formula $R\|_{j=0} = -(2e^{-2\phi}+3e^{-6\phi}\sin^{2}2\zeta)\,R^E\|_{j=0}$ from the appendix. |
 | `verify_NS_NS.py` | Full NS–NS vacuum field equation verification (graviton + B-field + dilaton) at $q \neq 0$ generic rotating parameters. |
 
 ## Requirements
@@ -159,7 +161,7 @@ For the NS–NS vacuum check, the worksheet/workbook then combines these with th
 **Python/SymPy.** Each `verify_*.py` script prints, at multiple independent test points,
 
 - `verify_einstein_eq.py` — the 10 independent components of $R^E_{\mu\nu}-2\partial_\mu\phi_{\rm seed}\partial_\nu\phi_{\rm seed}$, all evaluating to zero;
-- `verify_string_ricci.py` — the directly computed string-frame Ricci scalar at $j=0$ and the PRL-formula prediction, with zero absolute and relative difference;
+- `verify_string_ricci.py` — the directly computed string-frame Ricci scalar at $j=0$ and the paper's formula prediction, with zero absolute and relative difference;
 - `verify_NS_NS.py` — the 10 graviton-equation components, 6 B-field-equation components, and the dilaton trace, all zero.
 
 A final `PASS` line summarises the maximum residual.
@@ -180,9 +182,16 @@ Symbolic tensor calculations can be sensitive to assumptions, simplification ord
 If you use these files, please cite the accompanying paper and this repository.
 
 ```bibtex
+@article{JKP2026_RotatingNSNSVacuum,
+  author       = {Hun Jang and Minkyoo Kim and Jeong-Hyuck Park},
+  title        = {Exact Four-Parameter Rotating {NS--NS} Vacuum in Double Field Theory},
+  year         = {2026},
+  note         = {Preprint; arXiv identifier to be assigned}
+}
+
 @software{Rotating_closed_string_vacuum_JKP,
   author       = {Hun Jang and Minkyoo Kim and Jeong-Hyuck Park},
-  title        = {Exact Rotating Closed-String Vacuum: Maple/GRTensorIII and Mathematica Verification},
+  title        = {Exact Four-Parameter Rotating {NS--NS} Vacuum in Double Field Theory: Maple/GRTensorIII and Mathematica Verification},
   year         = {2026},
   publisher    = {GitHub},
   version      = {v1.0.0},
