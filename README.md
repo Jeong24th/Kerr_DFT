@@ -1,6 +1,6 @@
 # Rotating Closed String Vacuum
 
-This repository contains three independent verification tracks — a Maple/GRTensorIII worksheet/workbook, a pair of Mathematica notebooks (analytic and numerical), and a Python/SymPy suite — for the exact rotating closed-string NS–NS vacuum solution of the Einstein Double Field Equations in double field theory. A Wolfram Language script (`figures.wl`) reproduces the five figures of the paper.
+This repository contains three independent verification tracks — a Maple/GRTensorIII worksheet/workbook, a pair of Mathematica notebooks (analytic and numerical), and a Python/SymPy suite — for the exact rotating closed-string NS–NS vacuum solution of the Einstein Double Field Equations in double field theory. A Wolfram Language script (`figures.wl`) reproduces the six figures of the paper.
 
 **Accompanying paper.** H. Jang, M. Kim, and J.-H. Park, *"Exact Four-Parameter Rotating NS–NS Vacuum in Double Field Theory"* (2026). The Maple/GRTensorIII and Mathematica tracks provide the primary symbolic verification cited in the paper; the Python/SymPy track is supplied as an independent cross-check.
 
@@ -19,7 +19,7 @@ The Maple/GRTensorIII track supplies a GRTensorIII-compatible metric file togeth
 | `Rotating_Closed_String_Vacuum.maple` | Maple workbook version of the calculation file. |
 | `analytic_proof_of__qi coordinate.nb` | Mathematica notebook (analytic track). Checks the boxed dilaton, $H_{(3)}$, and string-frame metric directly against the NS–NS field equations in Boyer–Lindquist coordinates, then verifies the pull-back to quasi-isotropic coordinates. |
 | `Numerical_check_for_qi coordinate.nb` | Mathematica notebook (numerical track). Independent numerical verification of the same NS–NS field equations on the quasi-isotropic chart, complementing the analytic notebook. |
-| `figures.wl` | Wolfram Language script reproducing the five figures of the paper (`fig_polar3d.pdf`, `fig_polar_radial.pdf`, `fig_extremal.pdf`, `fig_nonsphere.pdf`, `fig_polar2d.pdf`) from the closed-form solution. Run with `wolframscript -file figures.wl`. |
+| `figures.wl` | Wolfram Language script reproducing the six figures of the paper (`fig_polar3d.pdf`, `fig_polar_radial.pdf`, `fig_effective_potential.pdf`, `fig_extremal.pdf`, `fig_nonsphere.pdf`, `fig_polar2d.pdf`) from the closed-form solution. Run with `wolframscript -file figures.wl`. |
 | `verify_einstein_eq.py` | Third independent track (SymPy/Python). Verifies the Bogush–Galtsov Einstein-frame seed satisfies $R^E_{\mu\nu} - 2\partial_\mu\phi_{\rm seed}\partial_\nu\phi_{\rm seed} = 0$ at multiple generic numerical test points. |
 | `verify_string_ricci.py` | Verifies the static-limit ($j=0$) string-frame Ricci-scalar formula $R\|_{j=0} = -(2e^{-2\phi}+3e^{-6\phi}\sin^{2}2\zeta)\,R^E\|_{j=0}$ from the appendix. |
 | `verify_NS_NS.py` | Full NS–NS vacuum field equation verification (graviton + B-field + dilaton) at $q \neq 0$ generic rotating parameters. |
@@ -129,7 +129,7 @@ Depending on local GRTensorIII conventions, the metric name may be treated case-
    wolframscript -file figures.wl
    ```
 
-3. The script produces the five PDF figures of the paper directly from the closed-form solution. Output filenames are listed in the header of `figures.wl`.
+3. The script produces the six PDF figures of the paper directly from the closed-form solution. Output filenames are listed in the header of `figures.wl`.
 
 ### Python/SymPy track
 

@@ -5,6 +5,7 @@
    Produces (PDF, matching the matplotlib originals):
      fig_polar3d.pdf      -- Fig 2 LEFT : 3D cutaway (ergosphere + r+ shell + repulsion)
      fig_polar_radial.pdf -- Fig 2 RIGHT: axial radial profile of a^r for 4 values of |q|
+     fig_effective_potential.pdf -- Appendix: axial timelike effective potential W(r)
      fig_extremal.pdf     -- SM1 : displaced Kerr bound on the extremal branch
      fig_nonsphere.pdf    -- SM2 : static-limit non-sphericity ratio (heatmap)
      fig_polar2d.pdf      -- SM3 : sign(F) two-tone (r,theta) map + F=0 contour
@@ -99,6 +100,40 @@ makePolarRadial[file_] := Module[
                Black, Text[Subscript["r", "+"], {0.5, -0.42}]},
     PlotLabel -> Style["Axial acceleration; dots at |a| peak", 10],
     ImageSize -> 380];
+  Export[file, plt]; Print["Wrote ", file]; plt];
+
+(* ===================== Appendix : axial effective potential =============== *)
+makeEffectivePotential[file_] := Module[
+  {m = 1.0, j = 0.85, zeta = 0.5, mj, xs, qs, cols, wAtX, curves, plt},
+  mj = Sqrt[m^2 - j^2];
+  xs = 0.5 + Exp[Subdivide[Log[2.0 10^-4], Log[5.5], 900]];
+  qs = {0.5, 1.0, 1.5};
+  cols = RGBColor /@ {"#1f77b4", "#2ca02c", "#e67e22"};
+  wAtX[x_?NumericQ, qRatio_?NumericQ] := Module[{rq, rb, del, sig, q},
+    rq = x mj; q = qRatio mj;
+    rb = rOfRbar[rq, m, mj];
+    del = (rq - mj^2/(4 rq))^2;
+    sig = rb^2 + j^2;
+    Exp[2 phiFunc[rb, m, mj, q, zeta]] del/sig];
+  curves = Table[Table[{x, wAtX[x, qr]}, {x, xs}], {qr, qs}];
+  plt = ListLinePlot[curves,
+    PlotStyle -> (Directive[#, AbsoluteThickness[1.7]] & /@ cols),
+    ScalingFunctions -> {None, "Log10"},
+    PlotRange -> {{0.48, 6.0}, {10^-3, 10^2}},
+    Frame -> True, Axes -> False, AspectRatio -> 2.8/3.7,
+    FrameLabel -> {Row[{"r/", Subscript["m", "j"]}],
+                   Row[{"W(r) = -", Subscript["g", "tt"], "|\[CurlyTheta]=0"}]},
+    FrameTicks -> {{Automatic, None},
+                   {{{0.5, "1/2"}, {1, "1"}, {2, "2"}, {4, "4"}, {6, "6"}}, None}},
+    GridLines -> {{{0.5, Directive[Black, Dotted]}},
+                  {{1, Directive[GrayLevel[0.45], Dashed]}}},
+    PlotLegends -> Placed[
+      LineLegend[cols, (Row[{"|q|/", Subscript["m", "j"], " = ", #}] & /@ qs),
+        LegendMarkerSize -> 18, LegendLayout -> "Column"], {0.75, 0.76}],
+    Epilog -> {Black, Text[Subscript["r", "+"], {0.5, 1.5 10^-3}],
+               GrayLevel[0.35], Text["W \[Rule] 1", {5.7, 1.08}]},
+    PlotLabel -> Style["Axial timelike effective potential", 10],
+    ImageSize -> 400];
   Export[file, plt]; Print["Wrote ", file]; plt];
 
 (* ===================== SM3 : sign(F) two-tone polar map =================== *)
@@ -238,6 +273,7 @@ makePolar3D[file_] := Module[
 (* ------------------------------- main ------------------------------------ *)
 makePolar3D["fig_polar3d.pdf"];
 makePolarRadial["fig_polar_radial.pdf"];
+makeEffectivePotential["fig_effective_potential.pdf"];
 makeExtremal["fig_extremal.pdf"];
 makeNonsphere["fig_nonsphere.pdf"];
 makePolar2D["fig_polar2d.pdf"];
