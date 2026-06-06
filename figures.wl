@@ -108,7 +108,7 @@ makeEffectivePotential[file_] := Module[
   mj = Sqrt[m^2 - j^2];
   xs = 0.5 + Exp[Subdivide[Log[2.0 10^-4], Log[5.5], 900]];
   qs = {0.5, 1.0, 1.5};
-  cols = RGBColor /@ {"#1f77b4", "#2ca02c", "#e67e22"};
+  cols = RGBColor /@ {"#1f77b4", "#2ca02c", "#b22222"};
   wAtX[x_?NumericQ, qRatio_?NumericQ] := Module[{rq, rb, del, sig, q},
     rq = x mj; q = qRatio mj;
     rb = rOfRbar[rq, m, mj];
@@ -125,8 +125,8 @@ makeEffectivePotential[file_] := Module[
                    Row[{"W(r) = -", Subscript["g", "tt"], "|\[CurlyTheta]=0"}]},
     FrameTicks -> {{Automatic, None},
                    {{{0.5, "1/2"}, {1, "1"}, {2, "2"}, {4, "4"}, {6, "6"}}, None}},
-    GridLines -> {{{0.5, Directive[Black, Dotted]}},
-                  {{1, Directive[GrayLevel[0.45], Dashed]}}},
+    GridLines -> {{{0.5, Directive[GrayLevel[0.45], AbsoluteThickness[0.7]]}},
+                  {{1, Directive[GrayLevel[0.55], Dashed]}}},
     PlotLegends -> Placed[
       LineLegend[cols, (Row[{"|q|/", Subscript["m", "j"], " = ", #}] & /@ qs),
         LegendMarkerSize -> 18, LegendLayout -> "Column"], {0.75, 0.76}],
